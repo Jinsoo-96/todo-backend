@@ -3,13 +3,16 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const indexRouter = require("./routes/index");
+require("dotenv").config();
 
 const app = express();
+const MONGODB_URI_PROD = process.env.MONGODB_URI_PROD;
+console.log("mongoouri", MONGODB_URI_PROD);
 app.use(cors());
 app.use(bodyParser.json());
 app.use("/api", indexRouter); // api 주소가 불필요 할 수 있지만 명확하게 구분하는 것에 도움이 됨.
 
-const mongoURI = "mongodb://localhost:27017/todo-demo";
+const mongoURI = MONGODB_URI_PROD;
 
 mongoose
   .connect(mongoURI)
