@@ -9,7 +9,13 @@ const app = express();
 const MONGODB_URI_PROD = process.env.MONGODB_URI_PROD;
 console.log("mongoouri", MONGODB_URI_PROD);
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "*", // 모든 도메인 허용
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type"],
+  })
+);
 app.use(bodyParser.json());
 app.use("/api", indexRouter); // api 주소를 명확하게 구분하는 것이 좋음.
 
