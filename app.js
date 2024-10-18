@@ -1,9 +1,11 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
 const bodyParser = require("body-parser");
 const indexRouter = require("./routes/index");
 
 const app = express();
+app.use(cors());
 app.use(bodyParser.json());
 app.use("/api", indexRouter); // api 주소가 불필요 할 수 있지만 명확하게 구분하는 것에 도움이 됨.
 

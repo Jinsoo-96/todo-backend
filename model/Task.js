@@ -12,7 +12,7 @@ const taskSchema = Schema(
       required: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true } //몽구스에서 제공하는 옵션
 );
 
 const Task = mongoose.model("Task", taskSchema);

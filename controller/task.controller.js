@@ -58,4 +58,15 @@ taskController.deleteTask = async (req, res) => {
   }
 };
 
+taskController.toggleAllTasks = async (req, res) => {
+  try {
+    const { isComplete } = req.body;
+    await Task.updateMany({}, { isComplete }); // 모든 할 일의 isComplete 상태를 변경
+    const updatedTasks = await Task.find({});
+    res.status(200).json({ status: "ok", data: updatedTasks });
+  } catch (err) {
+    res.status(400).json({ status: "fail", error: err });
+  }
+};
+
 module.exports = taskController;

@@ -2,6 +2,9 @@ const express = require("express");
 const taskController = require("../controller/task.controller");
 const router = express.Router();
 
+// 모든 할 일의 isComplete 상태를 토글하는 API
+router.put("/toggle-all", taskController.toggleAllTasks);
+
 router.post("/", taskController.creatTask);
 
 router.get("/", taskController.getTask);
