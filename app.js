@@ -8,9 +8,10 @@ require("dotenv").config();
 const app = express();
 const MONGODB_URI_PROD = process.env.MONGODB_URI_PROD;
 console.log("mongoouri", MONGODB_URI_PROD);
+
 app.use(cors());
 app.use(bodyParser.json());
-app.use("/api", indexRouter); // api 주소가 불필요 할 수 있지만 명확하게 구분하는 것에 도움이 됨.
+app.use("/api", indexRouter); // api 주소를 명확하게 구분하는 것이 좋음.
 
 const mongoURI = MONGODB_URI_PROD;
 
@@ -21,10 +22,10 @@ mongoose
   })
   .catch((err) => {
     console.log("DB connection fail", err);
-  }); //try catch
+  });
 
-app.listen(9999, () => {
-  console.log("server on 9999");
-}); // connect(mongoURI, { useNewUrlParser: true })
-// useNewUrlParser 옵션이 더 이상 필요 없다는 경고 메시지를 받고 있는 것 같아.
-// MongoDB Node.js 드라이버 4.0.0 이후로 이 옵션은 기본값으로 설정되어 있으니 삭제해도 돼.
+// Heroku가 제공하는 PORT 환경 변수를 사용해야 함
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
