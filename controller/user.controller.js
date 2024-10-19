@@ -1,5 +1,5 @@
 const User = require("../models/User");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs"); // bcrypt 대신 bcryptjs 사용
 
 const saltRounds = 10; // 10 정도로 설정
 
