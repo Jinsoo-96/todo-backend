@@ -24,21 +24,49 @@ userController.createUser = async (req, res) => {
 };
 
 // 로그인기능
+// userController.loginWithEmail = async (req, res) => {
+//   try {
+//     const { email, password } = req.body;
+//     const user = await User.findOne({ email }, "-createdAt -updatedAt -__v");
+//     if (user) {
+//       const isMatch = bcrypt.compareSync(password, user.password);
+//       if (isMatch) {
+//         const token = user.generateToken();
+//         return res.status(200).json({ status: "success", user, token });
+//       }
+//     } else {
+//       throw new Error("아이디 또는 비밀번호가 일치하지 않습니다.");
+//     }
+//   } catch (error) {
+//     res.status(400).json({ status: "fail", error });
+//   }
+// };
 userController.loginWithEmail = async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email }, "-createdAt -updatedAt -__v");
-    if (user) {
-      const isMatch = bcrypt.compareSync(password, user.password);
-      if (isMatch) {
-        const token = user.generateToken();
-        return res.status(200).json({ status: "success", user, token });
-      }
-    } else {
-      throw new Error("아이디 또는 비밀번호가 일치하지 않습니다.");
+
+    if (!user) {
+      return res
+        .status(400)
+        .json({ status: "fail", message: "아이디가 존재하지 않습니다." });
     }
+
+    const isMatch = await bcrypt.compare(password, user.password); // 비동기 처리로 변경
+
+    if (!isMatch) {
+      return res
+        .status(400)
+        .json({ status: "fail", message: "비밀번호가 일치하지 않습니다." });
+    }
+
+    const token = user.generateToken(); // JWT 또는 커스텀 토큰 생성
+    return res.status(200).json({ status: "success", user, token });
   } catch (error) {
-    res.status(400).json({ status: "fail", error });
+    res.status(500).json({
+      status: "error",
+      message: error.message || "서버 오류가 발생했습니다.",
+    });
   }
 };
 
