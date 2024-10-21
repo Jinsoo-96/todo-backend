@@ -1,5 +1,5 @@
 const User = require("../models/User");
-const bcrypt = require("bcryptjs"); // bcrypt 대신 bcryptjs 사용
+const bcrypt = require("bcryptjs"); // bcrypt 대신 bcryptjs 사용 heroku에서 오류나서
 
 const saltRounds = 10; // 10 정도로 설정
 
@@ -38,7 +38,7 @@ userController.loginWithEmail = async (req, res) => {
       throw new Error("아이디 또는 비밀번호가 일치하지 않습니다.");
     }
   } catch (error) {
-    res.status(400).json({ status: "fail", error });
+    res.status(400).json({ status: "fail", message: error.message });
   }
 };
 
